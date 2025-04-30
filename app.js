@@ -86,24 +86,43 @@ listing.reviews.push(newReview);
     res.redirect(`/listings/${id}`);
   
   }));
-    app.post('/listings', wrapAsync(async (req, res) => {
-       
-       
-      let result = listingSchema.validate(req.body);
-      if(result.error) {
-        throw new expressError(result.error.details[0].message, 400);
-      }
-      listingData = req.body.listing;
-      if(listingData.image==null || listingData.image==""){
-        listingData.image="https://source.unsplash.com/featured/?nature,water";   
-      }
-          const newListing = new Listing(listingData);
-          await newListing.save();
-          res.redirect('/listings');
-          
-        } 
-      ));
-      
+  app.post('/listings', wrapAsync(async (req, res) => {
+    // Step 1: Ensure `listing` exists and is an object
+    if (typeof req.body.listing !== 'object') {
+      throw new expressError('Invalid listing data', 400);
+    }
+  
+    // Step 2: Sanitize the image field
+    if (
+      typeof req.body.listing.image !== 'string' ||
+      req.body.listing.image.trim() === ""
+    ) {
+      req.body.listing.image = "https://source.unsplash.com/featured/?nature,water";
+    }
+  
+    // Step 3: Validate with Joi
+    const result = listingSchema.validate(req.body);
+    if (result.error) {
+      throw new expressError(result.error.details[0].message, 400);
+    }
+  
+    // Step 4: Use validated data
+    const listingData = req.body.listing;
+    const newListing = new Listing(listingData);
+    await newListing.save();
+    res.redirect('/listings');
+  }));
+  
+
+  app.delete('/listings/:id/reviews/:reviewId', wrapAsync(async (req, res) => {
+    const { id, reviewId } = req.params;
+    const listing = await Listing.findByIdAndUpdate(id, {
+      $pull: { reviews: reviewId } // Remove the review ID from the listing's reviews array
+    });
+    const review = await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/listings/${id}`);
+  }
+  ));
 
     app.get('/listings/:id/edit',async (req,res)=>{
         const {id}=req.params;
