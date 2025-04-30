@@ -1,0 +1,34 @@
+<% layout('/layouts/boilerplate') %>
+
+<div class="row">
+    <div class="col-8 offset-2">    <h2>Create a new Listing</h2>
+        <form method='POST'  action="/listings" class="needs-validation" novalidate>
+    <div>        <label for="title" class="form-label">Title</label>
+        <input type="text"  name="listing[title]" placeholder="Title" class="form-control" required>
+        <div class="valid-feedback">Title looks good!</div>
+        </div>
+    
+    <div><label for="description" class="form-label">Description</label>
+        <textarea type="text"name="listing[description]"  class="form-control" required></textarea>
+        </div>
+    <div><label for="image" class="form-label">Image</label>
+        <input type=" text" class="form-control"  name="listing[image][url]" placeholder="Image URL" >
+      
+        </div>
+   
+    <div><label for="price" class="form-label mg-bottom">Price</label>
+        <input class="form-control" type="number" name="listing[price]"required>
+        <div class="invalid-feedback">Input a valid Price</div>
+        </div>
+    
+    <div class="row"><div class="col-md-4"><label for="location" class="form-label">Location</label>
+        <input type="text" name="listing[location]" class="form-control" required>
+        <div class="invalid-feedback">Location must be valid</div> </div>
+        <div class="col-md-8 mb-3"><label for="country" class="form-label">Country</label>
+            <input type="text" name="listing[country]" class="form-control"required>
+            <div class="invalid-feedback">Country name should be valid</div>
+            </div></div>
+    <button class="btn btn-dark add-btn" type="submit">Add listing</button>
+        </form></div>
+</div>
+

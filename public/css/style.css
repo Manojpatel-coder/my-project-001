@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap');
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+display:flex;
+flex-direction: column;
+min-height: 100vh;
+}
+.container{
+    flex: 1;
+}
+  .add-btn{
+    background-color: #fe424d !important;
+    border:none !important;
+  }
+.navbar{
+    height:5rem;
+background-color: white;
+}
+.fa-compass{
+    color:#fe424d !important;
+    font-size:2rem;
+}
+.listing-link{
+    text-decoration:none;
+}
+.nav-link{
+    color:#222222 !important
+}
+
+.f-info-links a{
+    text-decoration:none;
+    color:#222222
+    }
+    .f-info-links a:hover{
+   text-decoration:underline;
+    }
+.f-info-links,.f-info-socials,.f-info-brand{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content: center;
+}
+.f-info-links a{
+    margin-right:3rem;
+}
+.f-info-socials i{
+    font-size:1.2rem;
+    margin-right:3rem;
+}
+.f-info{
+    text-align:center;
+        height:8rem;
+        background-color:#ebebeb;
+        display:flex;
+        flex-wrap:wrap;
+        justify-content:center;
+        align-items:space-evenly;
+    }
+
+    .card{
+        border:none !important;
+        margin-bottom:2rem;
+
+    }
+    .card-img-top{
+        border-radius:1rem !important;
+        width:100%;
+        object-fit:cover !important;
+    }
+    .card-body{
+        padding:0 !important;
+    }
+    .card-text p{
+        font-weight:400;
+    }
+    .card-img-overlay{
+        opacity: 0;
+    }
+    .card-img-overlay:hover{
+        opacity:0.2;
+        background-color: white;
+    }
+
+    .review-form {
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .review-form label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .review-form input[type="range"] {
+      width: 100%;
+      margin-bottom: 1.5rem;
+      accent-color: #007bff;
+    }
+
+    .review-form textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      resize: vertical;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .review-form button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .review-form button:hover {
+      background-color: #0056b3;
+    }
