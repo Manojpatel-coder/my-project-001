@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Schema=mongoose.Schema;
+const Review = require('./review');
+const User=require('./user');
 const listingSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -9,14 +11,14 @@ const listingSchema = new mongoose.Schema({
   price: Number,
   location: String,
   image: {
-    filename: {
-      type: String,
-      default: "",
-    },
-    url: {
-      type: String,
-      default: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=1374&q=80"
-    }
+url:{
+  type:String,
+  default:"https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhY2glMjBob3VzZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
+},
+filename:{
+  type:String,
+  default:'filename'
+}
   },
   country: String,
   reviews: [
@@ -25,6 +27,22 @@ const listingSchema = new mongoose.Schema({
       ref: 'Review',
     },
   ],
+  owner:{
+    type:Schema.Types.ObjectId,
+    ref:'User'
+  },
+  geometry:{
+    type:{
+      type:String,
+  enum:['Point'],
+      required:true
+    }
+    ,
+    coordinates:{
+      type:[Number],
+      required:true
+    }
+  }
 });
 
 

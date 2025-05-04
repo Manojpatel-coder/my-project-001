@@ -8,7 +8,10 @@ main().then(()=>console.log("Connected to MongoDB")).catch((err)=>console.log(er
 
 
 const initDB =async()=>{ 
-    await Listing.deleteMany({});   
+    await Listing.deleteMany({});  
+    initData.data=initData.data.map((obj)=>({
+      ...obj,owner:"681493526b58c4231e3908a7"
+    }))
     await Listing.insertMany(initData.data);
     console.log("Database initialized with sample data.");
 }

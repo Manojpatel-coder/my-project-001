@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloudinary Upload Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .upload-area {
+      border: 2px dashed #ccc;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #preview {
+      max-width: 100%;
+      max-height: 300px;
+      margin-top: 20px;
+      display: none;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f5f5f5;
+      border-radius: 5px;
+    }
+    .progress {
+      height: 20px;
+      background: #e0e0e0;
+      margin-top: 10px;
+      display: none;
+    }
+    .progress-bar {
+      height: 100%;
+      background: #4CAF50;
+      width: 0%;
+    }
+  </style>
+</head>
+<body>
+  <h1>Cloudinary Upload Test</h1>
+  
+  <div class="upload-area">
+    <form id="uploadForm" enctype="multipart/form-data">
+      <input type="file" id="fileInput" name="image" accept="image/*" required>
+      <button type="submit">Upload</button>
+    </form>
+    <img id="preview" alt="Image preview">
+    <div class="progress" id="progress">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+  </div>
+
+  <div id="result"></div>
+
+  <script>
+    const fileInput = document.getElementById('fileInput');
+    const preview = document.getElementById('preview');
+    const uploadForm = document.getElementById('uploadForm');
+    const resultDiv = document.getElementById('result');
+    const progressDiv = document.getElementById('progress');
+    const progressBar = document.getElementById('progressBar');
+
+    // Preview image before upload
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';
+      }
+    });
+
+    // Handle form submission
+    uploadForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const file = fileInput.files[0];
+      if (!file) {
+        showResult('Please select a file first', 'error');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('image', file);
+
+      try {
+        // Show progress
+        progressDiv.style.display = 'block';
+        progressBar.style.width = '0%';
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/upload', true);
+
+        // Progress tracking
+        xhr.upload.onprogress = (e) => {
+          if (e.lengthComputable) {
+            const percentComplete = (e.loaded / e.total) * 100;
+            progressBar.style.width = percentComplete + '%';
+          }
+        };
+
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            showResult(`
+              <h3>Upload Successful!</h3>
+              <p><strong>URL:</strong> <a href="${response.file.url}" target="_blank">${response.file.url}</a></p>
+              <p><strong>Filename:</strong> ${response.file.filename}</p>
+              <p><strong>Size:</strong> ${formatBytes(response.file.size)}</p>
+              <img src="${response.file.url}" style="max-width:300px; margin-top:10px;">
+            `, 'success');
+          } else {
+            const error = JSON.parse(xhr.responseText);
+            showResult(`Error: ${error.message || 'Upload failed'}`, 'error');
+          }
+          progressDiv.style.display = 'none';
+        };
+
+        xhr.onerror = () => {
+          showResult('Network error during upload', 'error');
+          progressDiv.style.display = 'none';
+        };
+
+        xhr.send(formData);
+      } catch (err) {
+        showResult(`Error: ${err.message}`, 'error');
+        progressDiv.style.display = 'none';
+      }
+    });
+
+    function showResult(message, type) {
+      resultDiv.innerHTML = message;
+      resultDiv.style.color = type === 'error' ? '#d32f2f' : '#388e3c';
+    }
+
+    function formatBytes(bytes, decimals = 2) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + ' ' + sizes[i];
+    }
+  </script>
+</body>
+</html>

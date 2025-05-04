@@ -128,3 +128,11 @@ background-color: white;
     .review-form button:hover {
       background-color: #0056b3;
     }
+
+
+    #map{
+        height:400px ;
+        width:80vh;
+        margin-left:85px;
+        margin-bottom:30px;
+    }
