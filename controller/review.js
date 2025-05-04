@@ -1,4 +1,4 @@
-const Listing = require("../model/Listing");
+const Listing = require("../model/listing");
 const Review = require("../model/review");
 const User=require('../model/user.js')
 
