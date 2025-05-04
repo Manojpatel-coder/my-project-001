@@ -21,7 +21,7 @@ app.use(express.urlencoded({extended:true}));
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'));
 app.use(express.static(path.join(__dirname,'public')));
-const Listing=require('./model/Listing.js');
+const Listing=require('./model/listing.js');
 const Review=require('./model/review.js');
 const listings=require('./routes/listing.js');
 app.engine('ejs',ejsMate); // to use ejs-mate as the template engine
