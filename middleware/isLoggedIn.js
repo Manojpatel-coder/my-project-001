@@ -1,4 +1,4 @@
-const Listing=require('../model/Listing.js');
+const Listing=require('../model/listing.js');
 
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
